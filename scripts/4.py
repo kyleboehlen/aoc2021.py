@@ -19,7 +19,7 @@ def solvePuzzle(input):
 
         formattedLine = line.strip()
         formattedLine = re.sub(r"\s+", ",", formattedLine)
-        for x, num in enumerate(formattedLine):
+        for x, num in enumerate(formattedLine.split(',')):
             inputArray = [boardCount, x, y]
             if num not in boards:
                 boards[num] = []
@@ -30,7 +30,6 @@ def solvePuzzle(input):
     markedNums = []
     boardTracker = {}
     checksumFound = False
-    print(boards)
     for num in inputNums:
         if checksumFound:
             break
@@ -40,13 +39,13 @@ def solvePuzzle(input):
                 boardTracker[b[0]] = [[0] * 5, [0] * 5]
             boardTracker[b[0]][0][b[1]] += 1
             boardTracker[b[0]][1][b[2]] += 1
-            if boardTracker[b[0]][0][b[1]] == 5 or boardTracker[b[0]][1][b[2]]:
+            if boardTracker[b[0]][0][b[1]] == 5 or boardTracker[b[0]][1][b[2]] == 5:
                 checksum = 0
                 for bNum in boardNums[b[0]]:
                     if bNum not in markedNums:
-                        checksum += bNum
-                checksum *= num
-                print(checksum)
+                        checksum += int(bNum)
+                checksum *= int(num)
+                print("Part One: " + str(checksum))
                 checksumFound = True
                 break
     
