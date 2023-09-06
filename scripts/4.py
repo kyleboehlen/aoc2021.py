@@ -28,10 +28,12 @@ def solvePuzzle(input):
         y += 1
 
     markedNums = []
+    boardsWon = []
     boardTracker = {}
-    checksumFound = False
+    firstChecksumFound = False
+    secondChecksumFound = False
     for num in inputNums:
-        if checksumFound:
+        if firstChecksumFound and secondChecksumFound:
             break
         markedNums.append(num)
         for b in boards[num]:
@@ -40,14 +42,27 @@ def solvePuzzle(input):
             boardTracker[b[0]][0][b[1]] += 1
             boardTracker[b[0]][1][b[2]] += 1
             if boardTracker[b[0]][0][b[1]] == 5 or boardTracker[b[0]][1][b[2]] == 5:
-                checksum = 0
-                for bNum in boardNums[b[0]]:
-                    if bNum not in markedNums:
-                        checksum += int(bNum)
-                checksum *= int(num)
-                print("Part One: " + str(checksum))
-                checksumFound = True
-                break
+                # Part 1
+                if not firstChecksumFound:
+                    checksum = 0
+                    for bNum in boardNums[b[0]]:
+                        if bNum not in markedNums:
+                            checksum += int(bNum)
+                    checksum *= int(num)
+                    print("Part One: " + str(checksum))
+                    firstChecksumFound = True
+                # Part 2
+                if b[0] not in boardsWon:
+                    boardsWon.append(b[0])
+                if len(boardsWon) == len(boardNums):
+                    checksum = 0
+                    for bNum in boardNums[b[0]]:
+                        if bNum not in markedNums:
+                            checksum += int(bNum)
+                    checksum *= int(num)
+                    print("Part Two: " + str(checksum))
+                    secondChecksumFound = True
+                    break
     
 
 
